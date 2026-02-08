@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reuben C Mathew - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .dark-mode {
+            background-color: #020617;
+            color: #f1f5f9;
+        }
+        
+        .light-mode {
+            background-color: #f9fafb;
+            color: #111827;
+        }
+        
+        /* Sparkles Animation */
+        #sparkles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        /* Gradient Animation */
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .animated-gradient {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6, #60a5fa);
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+        }
+        
+        /* Glass Morphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark-mode .glass {
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+        
+        /* Hover Effects */
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+        }
+        
+        /* Fade In Animation */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #06b6d4;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #22d3ee;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            height: 8px;
+            background: rgba(6, 182, 212, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            border-radius: 4px;
+            transition: width 1.5s ease;
+        }
+        
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="dark-mode transition-colors duration-300">
+    
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 glass backdrop-blur-md border-b border-cyan-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                    RC Mathew
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-300 hover:text-cyan-400 transition-colors">Home</a>
+                    <a href="#about" class="text-gray-300 hover:text-cyan-400 transition-colors">About</a>
+                    <a href="#skills" class="text-gray-300 hover:text-cyan-400 transition-colors">Skills</a>
+                    <a href="#experience" class="text-gray-300 hover:text-cyan-400 transition-colors">Experience</a>
+                    <a href="#projects" class="text-gray-300 hover:text-cyan-400 transition-colors">Projects</a>
+                    <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition-colors">Contact</a>
+                </div>
+
+                <button onclick="toggleTheme()" id="theme-toggle" class="p-2 rounded-lg bg-cyan-500/20 text-cyan-400 hover:scale-110 transition-transform">
+                    <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                    <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <canvas id="sparkles-canvas"></canvas>
+        
+        <div class="relative z-20 text-center px-4 fade-in">
+            <h1 class="text-5xl md:text-7xl lg:text-9xl font-bold mb-6 text-white float-animation">
+                Reuben C Mathew
+            </h1>
+            
+            <p class="text-xl md:text-2xl mb-8 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent font-semibold">
+                Data Engineer | AI/ML Specialist | FinTech Professional
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm md:text-base text-gray-300 mb-8">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    Trivandrum, India
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                    +91 9061808969
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    reubencmathews@gmail.com
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-6">
+                <a href="https://github.com/rc-mathew" target="_blank" class="p-3 rounded-full bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all hover-scale">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/reuben-c-mathew-b8199b1b8" target="_blank" class="p-3 rounded-full bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all hover-scale">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+                <a href="mailto:reubencmathews@gmail.com" class="p-3 rounded-full bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all hover-scale">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-white">About Me</h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="p-8 rounded-2xl glass hover-glow transition-all">
+                    <div class="flex items-center gap-3 mb-4">
+                        <svg class="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                            <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
+                        </svg>
+                        <h3 class="text-2xl font-bold text-white">Education</h3>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-lg font-semibold text-cyan-400">Master of Science in FinTech</h4>
+                            <p class="text-gray-300">University of Huddersfield, UK</p>
+                            <p class="text-sm text-gray-400">Sep 2022 – Sep 2023</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-cyan-400">B.Tech in Electronics and Communication</h4>
+                            <p class="text-gray-300">APJ Abdul Kalam Technological University, India</p>
+                            <p class="text-sm text-gray-400">2017 – 2021</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 rounded-2xl glass hover-glow transition-all">
+                    <div class="flex items-center gap-3 mb-4">
+                        <svg class="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <h3 class="text-2xl font-bold text-white">Professional Summary</h3>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        FinTech postgraduate and early-career technologist with strong experience across Data Analytics, Data Engineering, Software Engineering, and AI/ML. Proven ability to build end-to-end data pipelines, analytical systems, and machine learning models using Python and SQL. Experienced working with large-scale, automated production systems with a strong focus on data quality, reliability, and operational excellence.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-white">Technical Skills</h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Programming Languages -->
+                <div class="p-8 rounded-2xl glass hover-glow hover-scale transition-all animated-gradient">
+                    <svg class="w-8 h-8 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-white mb-2">Programming Languages</h3>
+                    <p class="text-2xl font-bold text-white mb-3">Python • SQL • Java</p>
+                    <p class="text-sm text-gray-200">Strong foundation in multiple languages</p>
+                </div>
+
+                <!-- Data Engineering -->
+                <div class="p-8 rounded-2xl glass hover-glow hover-scale transition-all" style="background: linear-gradient(135deg, #3b82f6, #10b981, #60a5fa);">
+                    <svg class="w-8 h-8 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-white mb-2">Data Engineering</h3>
+                    <p class="text-2xl font-bold text-white mb-3">ETL Pipelines</p>
+                    <p class="text-sm text-gray-200">Spark • Kafka • Hadoop • Hive</p>
+                </div>
+
+                <!-- Machine Learning -->
+                <div class="p-8 rounded-2xl glass hover-glow hover-scale transition-all" style="background: linear-gradient(135deg, #f59e0b, #8b5cf6, #fbbf24);">
+                    <svg class="w-8 h-8 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-white mb-2">Machine Learning & AI</h3>
+                    <p class="text-2xl font-bold text-white mb-3">92% Accuracy</p>
+                    <p class="text-sm text-gray-200">TensorFlow • PyTorch • Scikit-learn</p>
+                </div>
+
+                <!-- Data Analytics -->
+                <div class="p-8 rounded-2xl glass hover-glow hover-scale transition-all" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);">
+                    <svg class="w-8 h-8 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-white mb-2">Data Analytics & BI</h3>
+                    <p class="text-2xl font-bold text-white mb-3">Power BI • Tableau</p>
+                    <p class="text-sm text-gray-200">Statistical Analysis • Time-Series • Forecasting</p>
+                </div>
+
+                <!-- Cloud & DevOps -->
+                <div class="p-8 rounded-2xl glass hover-glow hover-scale transition-all animated-gradient">
+                    <svg class="w-8 h-8 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-white mb-2">Development Tools</h3>
+                    <p class="text-2xl font-bold text-white mb-3">Full Stack</p>
+                    <p class="text-sm text-gray-200">Docker • Git • MongoDB • MySQL</p>
+                </div>
+
+                <!-- Blockchain -->
+                <div class="p-8 rounded-2xl glass hover-glow hover-scale transition-all" style="background: linear-gradient(135deg, #db2777, #ec4899, #3b82f6);">
+                    <svg class="w-8 h-8 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-white mb-2">Blockchain & Web3</h3>
+                    <p class="text-2xl font-bold text-white mb-3">Ethereum</p>
+                    <p class="text-sm text-gray-200">Smart Contracts • DApps • Node.js</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-white">Professional Experience</h2>
+
+            <div class="space-y-8">
+                <!-- Amazon -->
+                <div class="p-8 rounded-2xl glass hover-glow transition-all">
+                    <h3 class="text-2xl font-bold mb-2 text-cyan-400">Amazon Fulfillment Technologies & Robotics</h3>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Fulfillment Associate (Automated & Robotics Systems)</h4>
+                    <div class="flex flex-wrap gap-4 mb-4 text-sm text-gray-400">
+                        <span>📍 England, United Kingdom</span>
+                        <span>📅 Oct 2024 – Jan 2026</span>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex gap-3">
+                            <span class="text-cyan-400">•</span>
+                            <span>Worked in robotics-driven, high-volume fulfillment centers using automated printing systems, conveyor networks, scanners, and robotic drive units</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-cyan-400">•</span>
+                            <span>Supported AI-assisted print-on-demand workflows, ensuring accuracy and operational consistency</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-cyan-400">•</span>
+                            <span>Monitored machine outputs and system performance, identifying anomalies and process deviations</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-cyan-400">•</span>
+                            <span>Developed strong skills in root-cause analysis, automation reliability, and operational intelligence</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tiege Consult -->
+                <div class="p-8 rounded-2xl glass hover-glow transition-all">
+                    <h3 class="text-2xl font-bold mb-2 text-cyan-400">Tiege Consult</h3>
+                    <h4 class="text-xl font-semibold mb-2 text-white">AI & Data Analytics Intern</h4>
+                    <div class="flex flex-wrap gap-4 mb-4 text-sm text-gray-400">
+                        <span>📍 London, United Kingdom</span>
+                        <span>📅 Feb 2024 – Oct 2024</span>
+                    </div>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex gap-3">
+                            <span class="text-cyan-400">•</span>
+                            <span>Conducted end-to-end data analysis using Python, SQL, R, Tableau, and Power BI</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-cyan-400">•</span>
+                            <span>Built and optimized data pipelines with automated validation and error handling</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-cyan-400">•</span>
+                            <span>Developed machine learning models for predictive analytics and forecasting</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-cyan-400">•</span>
+                            <span>Delivered real-time KPI dashboards using Power BI with live data connections</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-white">Featured Projects</h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="p-6 rounded-2xl glass hover-glow hover-scale transition-all">
+                    <div class="text-5xl mb-4">💳</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Credit Risk Prediction System</h3>
+                    <p class="mb-4 text-gray-300 text-sm leading-relaxed">Developed classification models using Scikit-learn to predict loan default risk with 92% accuracy</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Python</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Scikit-learn</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">ML</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">ROC Analysis</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="p-6 rounded-2xl glass hover-glow hover-scale transition-all">
+                    <div class="text-5xl mb-4">📈</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Equity Market Data Analysis</h3>
+                    <p class="mb-4 text-gray-300 text-sm leading-relaxed">Analyzed multi-year financial time-series data with forecasting using Holt-Winters and exponential smoothing</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Python</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Time-Series</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Forecasting</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="p-6 rounded-2xl glass hover-glow hover-scale transition-all">
+                    <div class="text-5xl mb-4">💬</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Customer Sentiment Analysis</h3>
+                    <p class="mb-4 text-gray-300 text-sm leading-relaxed">Built NLP sentiment classification models using TensorFlow LSTM with advanced preprocessing</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">TensorFlow</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">LSTM</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">NLP</span>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="p-6 rounded-2xl glass hover-glow hover-scale transition-all">
+                    <div class="text-5xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Stock Market Technical Analysis</h3>
+                    <p class="mb-4 text-gray-300 text-sm leading-relaxed">Built Python and Tableau dashboards to improve data accessibility and user engagement</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Python</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Tableau</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Finance</span>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="p-6 rounded-2xl glass hover-glow hover-scale transition-all">
+                    <div class="text-5xl mb-4">🔄</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">ETL Data Pipelines</h3>
+                    <p class="mb-4 text-gray-300 text-sm leading-relaxed">Automated data pipelines with validation, error handling, and cross-source reconciliation</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Python</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">SQL</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">ETL</span>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="p-6 rounded-2xl glass hover-glow hover-scale transition-all">
+                    <div class="text-5xl mb-4">📉</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Real-time KPI Dashboards</h3>
+                    <p class="mb-4 text-gray-300 text-sm leading-relaxed">Delivered interactive dashboards using Power BI with live data connections and automated refresh</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Power BI</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Real-time</span>
+                        <span class="px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400">Analytics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section id="certifications" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-white">Certifications & Achievements</h2>
+
+            <div class="p-8 rounded-2xl glass">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <span class="text-gray-300">Machine Learning with Python</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <span class="text-gray-300">Python Data Analysis</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <span class="text-gray-300">Big Data in the Age of AI</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <span class="text-gray-300">Introduction to FinTech</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <span class="text-gray-300">Blockchain Fundamentals</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <span class="text-gray-300">HTML Essential Training</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <span class="text-gray-300">Node.js Essential Training</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <span class="text-gray-300">Building Ethereum Blockchain Application</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-8 text-white">Let's Connect</h2>
+
+            <p class="text-lg mb-12 text-gray-300">
+                I'm always open to discussing new opportunities, collaborations, or just having a chat about data and technology!
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="mailto:reubencmathews@gmail.com" class="flex items-center gap-3 px-8 py-4 rounded-xl bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all hover-scale">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    Email Me
+                </a>
+                <a href="https://www.linkedin.com/in/reuben-c-mathew-b8199b1b8" target="_blank" class="flex items-center gap-3 px-8 py-4 rounded-xl bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all hover-scale">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                    LinkedIn
+                </a>
+                <a href="https://github.com/rc-mathew" target="_blank" class="flex items-center gap-3 px-8 py-4 rounded-xl bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 transition-all hover-scale">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 glass border-t border-cyan-500/20">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-gray-400">
+                © 2026 Reuben C Mathew. Built with passion and code.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button onclick="scrollToTop()" id="back-to-top" class="hidden fixed bottom-8 right-8 p-4 rounded-full bg-cyan-500 text-white shadow-lg hover-scale z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const moonIcon = document.getElementById('moon-icon');
+            const sunIcon = document.getElementById('sun-icon');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                moonIcon.classList.add('hidden');
+                sunIcon.classList.remove('hidden');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                moonIcon.classList.remove('hidden');
+                sunIcon.classList.add('hidden');
+            }
+        }
+
+        // Sparkles Canvas Animation
+        const canvas = document.getElementById('sparkles-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = 100;
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2 + 0.5,
+                speedX: (Math.random() - 0.5) * 1,
+                speedY: (Math.random() - 0.5) * 1,
+                opacity: Math.random()
+            });
+        }
+        
+        function animateSparkles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                if (particle.y > canvas.height) particle.y = 0;
+                
+                ctx.fillStyle = `rgba(6, 182, 212, ${particle.opacity})`;
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            requestAnimationFrame(animateSparkles);
+        }
+        
+        animateSparkles();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Scroll to Top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show/Hide Back to Top Button
+        window.addEventListener('scroll', () => {
+            const backToTopBtn = document.getElementById('back-to-top');
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('hidden');
+            } else {
+                backToTopBtn.classList.add('hidden');
+            }
+        });
+
+        // Smooth Scroll for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
